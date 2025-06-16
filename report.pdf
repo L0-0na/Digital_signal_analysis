@@ -1,0 +1,98 @@
+# FIR and IIR Digital Filter Design Report
+Students: Luna Salameh, Zaid Nasser
+
+## 📌 Introduction
+
+This report presents the design, implementation, and analysis of FIR and IIR digital filters. The work focuses on applying theoretical principles alongside practical MATLAB simulations to validate filter performance.
+
+---
+
+## 1️⃣ FIR Filter Design Using Window Method
+
+### A. Impulse Response Formulation
+
+* **Low-pass filter impulse response:**
+
+  ```math
+  h_{LP}(n) = \frac{\sin(w_c n)}{\pi n}
+  ```
+* **Band-stop filter impulse response:**
+
+  ```math
+  h_{BP}(n) = \delta(n) - h_{LP,w2}(n) + h_{LP,w1}(n)
+  ```
+
+### B. Window Selection
+
+* **Chosen window:** Hamming
+* **Specifications:**
+
+  * Mainlobe width (-3 dB): `0.042969`
+  * Relative sidelobe attenuation: `-42.4 dB`
+  * Filter order: `N = 61`
+
+### C. Frequency Response
+
+* Generated and compared both ideal and practical band-stop filter frequency responses.
+
+### D. Sine Signal Testing
+
+* Tested sine waves at π/5, 9π/20, and π/10.
+* Results:
+
+  * Passband signals passed through filter.
+  * Stopband signals attenuated as expected.
+  * Group delay matched theoretical predictions.
+
+---
+
+## 2️⃣ IIR Filter Design Using Bilinear Transform
+
+### A. Analog Butterworth Low-Pass Filter
+
+* **Design parameters:**
+
+  * Ω₁ = `0.5359 rad/s`
+  * Ω₂ = `0.8284 rad/s`
+  * Filter order `N = 3` (computed from `N ≈ 2.52`)
+  * Cutoff Ωc = `0.574 rad/s`
+* **Transfer function:**
+
+  ```math
+  |H(jΩ)|^2 = \frac{1}{1 + (Ω / Ω_c)^{2N}}
+  ```
+
+### B. Digital Conversion
+
+* Applied bilinear transformation:
+
+  ```math
+  s = \frac{2}{T} \frac{1 - z^{-1}}{1 + z^{-1}}
+  ```
+
+### C. Validation
+
+* Compared Bode plots of practical and theoretical analog filters.
+* Compared frequency responses of practical and theoretical digital filters.
+
+---
+
+## 3️⃣ High-Pass Filter Attempt (Impulse Invariance Method)
+
+* Impulse invariance method failed at high frequencies (violated Shannon's condition).
+* Bilinear transform produced near-spec results:
+
+  * |H(w1)| = `-2.24 dB` (target: ≤ -3 dB)
+  * |H(w2)| = `-10.63 dB` (target: ≤ -10 dB\`)
+
+---
+
+## 📌 Conclusion
+
+* FIR filter design met performance specs using the Hamming window.
+* IIR low-pass Butterworth design succeeded in both theoretical and practical tests.
+* High-pass filter design was not feasible via impulse invariance; bilinear transform results were close but not exact.
+
+## 💡 Notes
+
+* Simulations conducted using MATLAB with Signal Processing Toolbox (`freqz`, `grpdelay`, `buttord`, `bilinear`).
